@@ -1,4 +1,7 @@
 import math
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def calculate_nominal_interest(interest_rate: float) -> float:
@@ -8,6 +11,7 @@ def calculate_nominal_interest(interest_rate: float) -> float:
     :return: nominal (monthly) interest rate
     """
 
+    log.info("Calculating nominal interest")
     return interest_rate / (12 * 100)
 
 
@@ -23,6 +27,7 @@ def calculate_loan_principal(annuity_payment: float,
     :return: dict: "loan_principal" "overpayment"
     """
 
+    log.info("calculating loan principal")
     loan_principal = math.floor(annuity_payment / (nominal_interest *
                        (1 + nominal_interest) ** number_of_payments /
                        ((1 + nominal_interest) ** number_of_payments - 1)))
@@ -44,6 +49,7 @@ def calculate_annuity_payment(loan_principal: int,
     :return: dict: "annuity" "overpayment"
     """
 
+    log.info("Calculating annuity payment")
     payment = math.ceil((
                 nominal_interest *
                 (1 + nominal_interest) ** number_of_payments / (
@@ -64,6 +70,8 @@ def calculate_differential_payments(loan_principal: int,
     :param nominal_interest: int
     :return: dict: "diff_payments" "overpayment"
     """
+
+    log.info("Calculating differential payments")
     month = 1
     overpayment = 0
     payments = []
@@ -94,6 +102,7 @@ def calculate_number_of_payments(monthly_payment: int,
     :return: dict: "years_months" "overpayment"
     """
 
+    log.info("Calculating number of payments")
     total_months = math.ceil(math.log(
         monthly_payment / (
                     monthly_payment - nominal_interest * principal_amount),

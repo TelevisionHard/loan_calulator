@@ -1,4 +1,7 @@
 import argparse
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def run_parameters():
@@ -6,7 +9,7 @@ def run_parameters():
     Function to collect parameters and returns a parser object
     :return: Callable
     """
-
+    log.info("Collecting run parameters")
     parser = argparse.ArgumentParser(description="Loan calculator inputs")
 
     parser.add_argument(

@@ -1,4 +1,5 @@
 from typing import Optional
+import logging
 from loan_calculation_logic import (
     calculate_nominal_interest,
     calculate_loan_principal,
@@ -6,6 +7,8 @@ from loan_calculation_logic import (
     calculate_annuity_payment,
     calculate_number_of_payments
 )
+
+log = logging.getLogger(__name__)
 
 
 def format_month_to_year(years_months: list) -> str:
@@ -16,6 +19,8 @@ def format_month_to_year(years_months: list) -> str:
 
     years = years_months[0]
     months = years_months[1]
+
+    log.info("formatting month to year output")
 
     if years >= 1 and months == 0:
         return f"""
@@ -37,6 +42,7 @@ def format_annuity_amount(payment_amount: int) -> str:
     :return: str
     """
 
+    log.info("formatting annuity output")
     return f"Your annuity payment {payment_amount}!"
 
 
@@ -47,6 +53,7 @@ def format_diff_payment_amount(month: int, diff_payment_amount: int) -> str:
     :return: str
     """
 
+    log.info("formatting differential payment output")
     return f"Month {month}: payment is {diff_payment_amount}!"
 
 
@@ -56,6 +63,7 @@ def format_over_payment_amount(over_payment_amount: int) -> str:
     :return: str
     """
 
+    log.info("formatting over payment output")
     return f"Overpayment = {over_payment_amount}"
 
 
@@ -65,6 +73,7 @@ def format_loan_principal(loan_principal: int) -> str:
     :return: str
     """
 
+    log.info("formatting loan principal output")
     return f"Your loan principal = {loan_principal}!"
 
 
@@ -75,6 +84,7 @@ def diff_payment_output_logic(loan_principal: int,
     payments = calculate_differential_payments(loan_principal,
                                                number_of_periods,
                                                nominal_int)
+
     for v in payments["diff_payments"]:
         print(format_diff_payment_amount(v[0], v[1]))
     print(format_over_payment_amount(payments["overpayment"]))
@@ -137,7 +147,9 @@ def all_report_output_logic(
     :return:
     """
 
+    log.info("Starting report output logic")
     if payment_type == "diff":
+        log.info("Starting differential payment")
         if loan_principal and number_of_periods and loan_interest:
             diff_payment_output_logic(loan_principal,
                                       number_of_periods,
@@ -146,17 +158,20 @@ def all_report_output_logic(
             print("Incorrect parameters.")
 
     elif payment_type == "annuity":
+        log.info("Starting annuity payment logic")
         if loan_principal and number_of_periods and loan_interest:
             annuity_payment_output_logic(loan_principal,
                                          number_of_periods,
                                          loan_interest)
 
         elif loan_principal and monthly_payment and loan_interest:
+            log.info("Starting total annuity payments logic")
             total_payments_output_logic(loan_principal,
                                         monthly_payment,
                                         loan_interest)
 
         elif monthly_payment and number_of_periods and loan_interest:
+            log.info("Starting loan principal logic")
             loan_principal_output_logic(monthly_payment,
                                         number_of_periods,
                                         loan_interest)

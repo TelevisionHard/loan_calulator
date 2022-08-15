@@ -15,7 +15,7 @@ python main.py --type=annuity --principal=1000000 --periods=60 --interest=10
 
 #### Loan term:
 ```python
-python main.py --principal=500000 --payment=23000 --interest=7.8
+python main.py --type=annuity --principal=500000 --payment=23000 --interest=7.8
 ```
 
 #### Loan Principal:
